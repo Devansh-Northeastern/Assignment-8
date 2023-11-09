@@ -22,15 +22,15 @@ app.post('/user/create', async (req, res) => {
   const { fullName, email, password } = req.body;
   console.log(fullName, email, password, req.body);
 
-  if (isValidEmail(email)) {
+  if (!isValidEmail(email)) {
     return res.status(400).json({ message: 'Invalid email' });
   }
   
-  if (isStrongPassword(password)) {
+  if (!isStrongPassword(password)) {
     return res.status(400).json({ message: 'Invalid password. Password must be strong' });
   }
   
-  if (isFullNameValid(fullName)) {
+  if (!isFullNameValid(fullName)) {
     return res.status(400).json({ message: 'Invalid full name' });
   }
   
@@ -51,11 +51,11 @@ app.post('/user/create', async (req, res) => {
 app.put('/user/edit', async (req, res) => {
   const { email, fullName, password } = req.body;
 
-  if (isStrongPassword(password)) {
+  if (!isStrongPassword(password)) {
     return res.status(400).json({ message: 'Invalid password. Password must be strong' });
   }
   
-  if (isFullNameValid(fullName)) {
+  if (!isFullNameValid(fullName)) {
     return res.status(400).json({ message: 'Invalid full name' });
   }
 
