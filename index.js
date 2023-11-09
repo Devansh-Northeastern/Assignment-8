@@ -22,9 +22,18 @@ app.post('/user/create', async (req, res) => {
   const { fullName, email, password } = req.body;
   console.log(fullName, email, password, req.body);
 
-  if (!isValidEmail(email) || !isStrongPassword(password) || !isFullNameValid(fullName)) {
-    return res.status(400).json({ message: 'Invalid email, password, or full name' });
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ message: 'Invalid email' });
   }
+  
+  if (!isStrongPassword(password)) {
+    return res.status(400).json({ message: 'Invalid password. Password must be strong' });
+  }
+  
+  if (!isFullNameValid(fullName)) {
+    return res.status(400).json({ message: 'Invalid full name' });
+  }
+  
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -42,8 +51,12 @@ app.post('/user/create', async (req, res) => {
 app.put('/user/edit', async (req, res) => {
   const { email, fullName, password } = req.body;
 
-  if (!isStrongPassword(password) || !isFullNameValid(fullName)) {
-    return res.status(400).json({ message: 'Invalid password or full name' });
+  if (!isStrongPassword(password)) {
+    return res.status(400).json({ message: 'Invalid password. Password must be strong' });
+  }
+  
+  if (!isFullNameValid(fullName)) {
+    return res.status(400).json({ message: 'Invalid full name' });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
